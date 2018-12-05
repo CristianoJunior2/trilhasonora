@@ -56,10 +56,17 @@
 						alert("Error!")
 						console.log("ERROR: ", e);
 					}
+					limpeza();
 				});
 
 	 
 	    }
+			function limpeza(){
+				$("#id").val(''),
+	    		$("#titulo").val(''),
+	    		$("#nome_filme").val(''),
+				$("#trilha").val('')
+			}
 		});
 
 
