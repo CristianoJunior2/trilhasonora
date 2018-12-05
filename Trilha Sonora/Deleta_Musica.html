@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Deletar Musica</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	var i = 0;
+
+	function buscaElem(){
+		var elem = $("#valor").val();
+		$.get("https://trilhas-api.now.sh/trilha/"+elem,function (data, status){
+			if(data == null || elem < 1){
+				alert("Valor nao encontrado!!");
+			}
+			else{
+				alert("Deletando o ID " + elem);
+			}
+		});	
+	}
+	
+	$("#btSave").click(function(){
+			var elem = $("#valor").val();
+
+	    	// DO DELETE
+	    	$.ajax({
+				type : "DELETE",
+				url :"https://trilhas-api.now.sh/trilha/"+elem,
+				success : function(result) {
+					console.log(result);
+				},
+				error : function(e) {
+					alert("Error!")
+					console.log("ERROR: ", e);
+				}
+			});
+	    	
+	 
+	});
+		    
+	
+	$("#btEscolha").click(function(){
+		buscaElem();
+	})
+	
+});
+</script>
+</head>
+<body>
+				<!--Menu - Parte superior-->
+				<div>
+					<a href="index.html"><h2>Trilha Sonora</h2></a>
+				</div>
+				<h2>Qual trilha deseja deletar? T-T</h2>
+<div id="num"><input id="valor" type="number"><button id="btEscolha">Escolher</button></div>
+<div id="tela"></div>
+<button id="btSave">Deletar</button>
+<br>
+		<a href="index.html">voltar</a>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Buscar Musica</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+	var i = 0;
+	function buscaElem(){
+		var elem = $("#valor").val();
+		$.get("https://trilhas-api.now.sh/trilha/"+elem,function (data, status){
+			if(data == null){
+				alert("Valor nao encontrado!!");
+			}
+			else{
+				window.location.href = "https://trilhas-api.now.sh/trilha/"+ elem;
+			}
+		});
+	}
+	$("#btEscolha").click(function(){
+		buscaElem();
+	})
+});
+	
+</script>
+</head>
+<body>
+				<!--Menu - Parte superior-->
+				<div>
+					<a href="index.html"><h2>Trilha Sonora</h2></a>
+				</div>
+				<h2>O que procuras?</h2>
+<div id="pessoa"><input id="valor" type="number"><button id="btEscolha">Escolher</button></div>
+<div id="tela"></div>
+<br>
+		<a href="index.html">voltar</a>
+</body>
+</html>

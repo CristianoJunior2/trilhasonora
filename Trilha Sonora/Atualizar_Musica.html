@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Update Musicas</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>
+
+$(document).ready(function(){
+	var i = 0;
+
+	function buscaElem(){
+		var elem = $("#valor").val();
+		$.get("https://trilhas-api.now.sh/trilha/"+elem,function (data, status){
+			if(data == null || elem < 1){
+				alert("Valor nao encontrado!!");
+			}
+			else{
+				alert("Modificando o ID " + elem);
+			}
+		});	
+	}
+	
+	$("#btSave").click(function(){
+				var elem = $("#valor").val();
+				var data = new Date();
+				
+				var formData = {
+				id : $("#id").val(),
+	    		titulo : $("#titulo").val(),
+	    		nome_filme : $("#nome_filme").val(),
+				imagem : $("#imagem").val(),
+				genero : $("#genero").val(),
+				trilha : $("#trilha").val(),
+				created : data
+				}
+	    	
+	    	// DO PUT
+	    	$.ajax({
+				type : "PUT",
+				contentType : "application/json",
+				url :"https://trilhas-api.now.sh/trilha/"+elem,
+				data : JSON.stringify(formData),
+				dataType : 'json',
+				success : function(result) {
+					console.log(result);
+				},
+				error : function(e) {
+					alert("Error!")
+					console.log("ERROR: ", e);
+				}
+			});
+	    	
+	    	// Reset FormData after Posting
+	    	resetData();
+	 
+	});
+		    
+	function resetData(){
+	   	$("#titulo").val("");
+		$("#nome_filme").val(""),
+		$("#trilha").val("")
+	}
+
+	
+	$("#btEscolha").click(function(){
+		buscaElem();
+	})
+	
+});
+	
+</script>
+</head>
+<body>
+<div id="num"><input id="valor" type="number"><button id="btEscolha">Escolher</button></div>
+				<!--Menu - Parte superior-->
+				<div>
+					<a href="index.html"><h2>Trilha Sonora</h2></a>
+				</div>
+				
+		<h2>Qual musica deseja atualizar? :D</h2>
+		<form>
+			ID:<input type="text" id="id"><br><br>
+			Título da Trilha Sonora: <input type="text" id="titulo"><br><br>
+			Titulo do filme:  <input type="text" id="nome_filme"><br><br>
+			Imagem:  <input type="text" id="imagem"><br><br>
+			Gênero do filme:
+			<select id="genero">
+				<option value="Ação">Ação</option>
+				<option value="Animação">Animação</option>
+				<option value="Aventura">Aventura</option>
+				<option value="Comedia">Comedia</option>
+				<option value="Drama">Drama</option>
+				<option value="Epico">Epico</option>
+				<option value="Terror">Terror</option>
+				<option value="Suspense">Suspense</option>
+			</select><br>
+			<br>Trilha:<input type="text" id="trilha"><br><br>
+		</form>
+
+		<p>Para ajudar a assimilar a trilha sonora adicione uma imagem da mesma<p/>
+		<input type="file" id="myFile" multiple size="50" onchange="myFunction()" accept="image/*">
+			<p id="demo"></p>
+		<button id="btSave">Salvar</button>
+	<body>
+	<br>
+		<a href="index.html">voltar</a>
+</html>

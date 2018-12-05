@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<title>Cadastrar Musicas</title>
+		<meta charset="UTF-8">
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script>
+		$(document).ready(function(){
+			var result;
+			$("#file").submit(function(e) {
+			var fd = new FormData(this);
+				
+			$.ajax({				
+				method: 'POST',
+				url: 'https://trilhas-api.now.sh/upload',
+				data: fd,
+				processData: false,
+				cache: false,
+				contentType: false,
+				success: function(response){
+					console.log(response);
+					result = response.image;
+					jsonfile(result);
+					
+				}, error: function(data, textStatus) {
+					console.log(data);
+				}
+			});			
+			e.preventDefault();
+			});
+			
+			function jsonfile(result) {
+				var date = new Date();
+				
+				var formData = {
+				id : $("#id").val(),
+	    		titulo : $("#titulo").val(),
+	    		nome_filme : $("#nome_filme").val(),
+				imagem : result,
+				genero : $("#genero").val(),
+				trilha : $("#trilha").val(),
+				created : date
+				}
+	    	
+				// DO POST
+				$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url :"https://trilhas-api.now.sh/trilhas",
+					data : JSON.stringify(formData),
+					dataType : 'json',
+					success : function(result) {
+						console.log(result);
+					},
+					error : function(e) {
+						alert("Error!")
+						console.log("ERROR: ", e);
+					}
+				});
+
+	 
+	    }
+		});
+
+
+			</script>
+	</header>
+	<body>
+				<!--Menu - Parte superior-->
+		<div>
+			<a href="index.html"><h2>Trilha Sonora</h2></a>
+		</div>
+		<h2>Cadastro de trilha</h2>
+		<form>
+			ID:<input type="text" id="id"><br><br>
+			Título da Trilha Sonora: <input type="text" id="titulo"><br><br>
+			Titulo do filme:  <input type="text" id="nome_filme"><br><br>
+
+			Gênero do filme:
+			<select id="genero">
+				<option value="Ação">Ação</option>
+				<option value="Animação">Animação</option>
+				<option value="Aventura">Aventura</option>
+				<option value="Comedia">Comedia</option>
+				<option value="Drama">Drama</option>
+				<option value="Epico">Epico</option>
+				<option value="Terror">Terror</option>
+				<option value="Suspense">Suspense</option>
+			</select><br>
+			<br>Trilha:<input type="text" id="trilha"><br><br>
+		</form>
+
+		<p>Para ajudar a assimilar a trilha sonora adicione uma imagem da mesma<p/>
+		<form id="file" method="post" enctype="multipart/form-data">
+			<input type="file" id="imagem" multiple size="50" accept="image/*" name="imagem">
+			<p id="demo"></p>			
+			<button>Salvar</button>
+		</form>
+		<br>
+		<a href="index.html">voltar</a>
+	<body>
+</html>
